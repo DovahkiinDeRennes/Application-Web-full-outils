@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Accueil
+{% endblock %}
+
+{% block body %}
+	{% include '/historyFile.html.twig' with {
+    files: files
+} %}
+	<section class="min-h-screen flex flex-col text-center m-auto justify-center items-center h-auto">
+		<div class="bg-slate-800 p-5 rounded-lg text-white">
+			<h1 class="font-bold">OUTILS POUR CHANGEMENT FORMAT D'IMAGE</h1>
+			<form class="flex flex-col" method="POST" action="{{ path('app_test') }}" enctype="multipart/form-data">
+				<div class="mt-5 flex flex-col">
+					<label>Nom de l'image</label>
+					<input class="text-black" type="text" name="name">
+				</div>
+				<div class="mt-5 flex flex-col">
+					<label>Veuillez importez une image,pdf ou photo</label>
+					<input type="file" name="file">
+				</div>
+
+				<div class="mt-5 flex flex-col">
+					<label>Format du fichier voulu</label>
+					<select class="text-black" name="format">
+						<option value="" disabled selected>Format</option>
+						<option value="jpeg">jpeg</option>
+						<option value="png">png</option>
+						<option value="webp">webp</option>
+						<option value="pdf">pdf</option>
+					</select>
+				</div>
+				<button type="submit" class="bg-blue-600 text-white rounded py-2 mt-3 hover:bg-blue-700">
+					Convertir
+				</button>
+			</form>
+		</div>
+	</section>
+{% endblock %}
