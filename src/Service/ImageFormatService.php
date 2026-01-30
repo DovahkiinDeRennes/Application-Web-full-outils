@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Intervention\Image\Encoders\JpegEncoder;
 use Intervention\Image\Encoders\PngEncoder;
 use Intervention\Image\Encoders\WebpEncoder;
-use Intervention\Image\Encoders\PdfEncoder;
+use FPDF;
 
 class ImageFormatService
 {
@@ -41,6 +41,26 @@ class ImageFormatService
             'webp'        => $image->encode(new WebpEncoder(quality: 80))->save($path),
             default       => throw new \InvalidArgumentException('Format non supporté'),
         };
+
+        return $filename;
+    }
+
+    public function imageToPdf(
+        string $imagePath,
+        string $targetDir,
+        string $name
+    ): string {
+
+        $cleanName = preg_replace('/[^a-zA-Z0-9_-]/', '_', $name);
+        $filename = uniqid('pdf_') . '_' . $cleanName . '.pdf';
+        $pdfPath = rtrim($targetDir, '/') . '/' . $filename;
+
+        $pdf = new FPDF();
+        $pdf->AddPage();
+
+        $pdf->Image($imagePath, 10, 10, 190);
+
+        $pdf->Output('F', $pdfPath);
 
         return $filename;
     }

@@ -1,22 +1,42 @@
-{% if files is defined and files|length > 0 %}
+{% if files is defined and files|length %}
     <div class="bg-slate-800 p-5 text-white">
-        <form class="flex flex-row justify-between gap-5" method="POST" action="{{ path('app_test_uploads') }}" enctype="multipart/form-data">
-            <div>
-                <label>Listes des images uploads</label>
-                <select class="text-black" name="name">
-                    <option value="" disabled selected></option>
+        <form
+            method="POST"
+            action="{{ path('app_test_uploads') }}"
+            enctype="multipart/form-data"
+            class="flex items-center justify-between gap-5"
+        >
+            <div class="flex items-center gap-4">
+                <label for="file-select" class="font-medium">
+                    Liste des images uploadées
+                </label>
+
+                <select
+                    id="file-select"
+                    name="name"
+                    class="text-black rounded px-2 py-1"
+                    required
+                >
+                    <option value="" disabled selected>
+                        Sélectionner une image
+                    </option>
+
                     {% for file in files %}
                         <option value="{{ file }}">{{ file }}</option>
                     {% endfor %}
                 </select>
             </div>
-            <button type="submit" class="bg-blue-600 text-white rounded py-2 mt-3 hover:bg-blue-700">
+
+            <button
+                type="submit"
+                class="bg-blue-600 text-white rounded px-4 py-2 hover:bg-blue-700 transition"
+            >
                 Uploads
             </button>
         </form>
     </div>
 {% else %}
-    <div class="bg-slate-800 p-5 text-white gap-5">
-        <p>Aucune image(s) uploads</p>
+    <div class="bg-slate-800 p-5 text-white">
+        <p>Aucune image uploadée</p>
     </div>
 {% endif %}
