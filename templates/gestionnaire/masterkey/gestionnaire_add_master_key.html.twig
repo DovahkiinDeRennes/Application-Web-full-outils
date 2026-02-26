@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil
+{% endblock %}
+
+{% block body %}
+	<style></style>
+	{% include 'component/navBar.html.twig'  %}
+	<section class="min-h-screen flex items-center justify-center text-center p-2 flex flex-col">
+		<div class="bg-slate-800 p-6 rounded-lg text-white w-full xs:max-w-xl md:max-w-4xl lg:max-w-7xl overflow-x-auto">
+
+			<form class="text-left flex flex-col gap-4" method="POST" action="{{ path('app_gestionnaire_add_master_key') }}">
+				<div class="flex flex-row gap-4">
+					<div class="flex flex-col">
+						<label for="masterkey" class="mb-1">
+							Master Key
+						</label>
+						<input id="masterkey" type="text" name="masterkey" class="text-sm text-black" required>
+					</div>
+				</div>
+				<button type="submit" class="px-2 bg-blue-600 text-white rounded py-2 hover:bg-blue-700 transition">
+					Ajouter
+				</button>
+			</form>
+		</div>
+	</section>
+{% endblock %}

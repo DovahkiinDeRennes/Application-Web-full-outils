@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil
+{% endblock %}
+
+{% block body %}
+	{% include 'component/navBar.html.twig'  %}
+	{% include 'historyFile.html.twig' with { files: files } %}
+
+	<section class="min-h-screen flex items-center justify-center text-center">
+		<div class="bg-slate-800 p-6 rounded-lg text-white w-full max-w-md">
+			<h1 class="font-bold text-lg mb-6">
+				Outils de changement de format d’image
+			</h1>
+
+			<form method="POST" action="{{ path('app_converter') }}" enctype="multipart/form-data" class="flex flex-col gap-5">
+				<div class="flex flex-col text-left">
+					<label for="name" class="mb-1">
+						Nom de l’image
+					</label>
+					<input id="name" type="text" name="name" class="text-black rounded px-2 py-1" placeholder="ex : mon-image">
+				</div>
+
+				<div class="flex flex-col text-left">
+					<label for="file" class="mb-1">
+						Importer une image, un PDF ou une photo
+					</label>
+					<input id="file" type="file" name="file" class="text-sm" required>
+				</div>
+
+				<div class="flex flex-col text-left">
+					<label for="format" class="mb-1">
+						Format de sortie
+					</label>
+					<select id="format" name="format" class="text-black rounded px-2 py-1" required>
+						<option value="" disabled selected>
+							Sélectionner un format
+						</option>
+						<option value="jpeg">JPEG</option>
+						<option value="png">PNG</option>
+						<option value="webp">WEBP</option>
+						<option value="pdf">PDF</option>
+					</select>
+				</div>
+
+				<button type="submit" class="bg-blue-600 text-white rounded py-2 hover:bg-blue-700 transition">
+					Convertir
+				</button>
+			</form>
+		</div>
+	</section>
+{% endblock %}

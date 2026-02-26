@@ -9,6 +9,11 @@
 parameters:
 
 services:
+    App\EventListener\VaultTimeoutListener:
+            tags:
+                - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+            arguments:
+                $timeout: 600 # 10 minutes
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.

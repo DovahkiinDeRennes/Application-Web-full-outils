@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion
+{% endblock %}
+
+{% block body %}
+
+
+
+	{% include 'component/navBar.html.twig'  %}
+    
+	<section class="min-h-screen flex items-center justify-center text-center p-2">
+		<div class="bg-slate-800 p-6 rounded-lg text-white w-full xs:max-w-xl md:max-w-xl lg:max-w-7xl overflow-x-auto">
+			<div class="flex flex-col gap-10">
+				<h1>CONNEXION</h1>
+
+				{% if error %}
+					<div style="color: red;">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+				{% endif %}
+
+				<form action="{{ path('app_login') }}" method="post" class="flex flex-col text-left gap-4">
+					<div class="flex flex-col">
+						<label for="username">Nom d'utilisateur:</label>
+						<input class="text-black" type="text" id="username" name="_username" value="{{ last_username }}" required autofocus>
+					</div>
+					<div class="flex flex-col">
+						<label for="password">Mot de passe:</label>
+						<input class="text-black" type="password" id="password" name="_password" required>
+					</div>
+					<button type="submit">Se connecter</button>
+				</form>
+			</div>
+		</div>
+	</section>
+
+{% endblock %}

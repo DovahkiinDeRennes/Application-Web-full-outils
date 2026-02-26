@@ -7,6 +7,9 @@
         "php": ">=8.4",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "doctrine/doctrine-bundle": "^3.2",
+        "doctrine/doctrine-migrations-bundle": "^4.0",
+        "doctrine/orm": "^3.6",
         "intervention/image": "^3.11",
         "setasign/fpdf": "^1.8",
         "symfony/console": "8.0.*",
@@ -15,7 +18,10 @@
         "symfony/framework-bundle": "8.0.*",
         "symfony/mime": "8.0.*",
         "symfony/runtime": "8.0.*",
+        "symfony/security-bundle": "8.0.*",
+        "symfony/security-core": "8.0.*",
         "symfony/twig-bundle": "8.0.*",
+        "symfony/validator": "8.0.*",
         "symfony/yaml": "8.0.*"
     },
     "require-dev": {

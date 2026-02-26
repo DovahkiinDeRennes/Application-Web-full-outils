@@ -1,0 +1,14 @@
+.copiable {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+
+.password-hidden {
+    -webkit-text-security: disc;
+    white-space: nowrap;
+}
+.password-hidden:hover {
+    -webkit-text-security: none;
+
+}

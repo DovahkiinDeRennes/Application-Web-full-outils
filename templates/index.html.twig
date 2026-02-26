@@ -1,75 +1,102 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil{% endblock %}
+{% block title %}Accueil
+{% endblock %}
 
 {% block body %}
-    {% include 'historyFile.html.twig' with { files: files } %}
 
-    <section class="min-h-screen flex items-center justify-center text-center">
-        <div class="bg-slate-800 p-6 rounded-lg text-white w-full max-w-md">
-            <h1 class="font-bold text-lg mb-6">
-                Outils de changement de format d’image
-            </h1>
 
-            <form
-                method="POST"
-                action="{{ path('app_test') }}"
-                enctype="multipart/form-data"
-                class="flex flex-col gap-5"
-            >
-                <div class="flex flex-col text-left">
-                    <label for="name" class="mb-1">
-                        Nom de l’image
-                    </label>
-                    <input
-                        id="name"
-                        type="text"
-                        name="name"
-                        class="text-black rounded px-2 py-1"
-                        placeholder="ex : mon-image"
-                    >
-                </div>
+	<section class="min-h-screen flex items-center">
+		<div class="p-6 rounded-lg text-white w-full max-w-4xl">
+			<div class="flex flex-col md:flex-row gap-4 min-w-0">
 
-                <div class="flex flex-col text-left">
-                    <label for="file" class="mb-1">
-                        Importer une image, un PDF ou une photo
-                    </label>
-                    <input
-                        id="file"
-                        type="file"
-                        name="file"
-                        class="text-sm"
-                        required
-                    >
-                </div>
+				<nav class="bg-slate-800 rounded-md p-4 w-full overflow-hidden">
+					<h1 class="p-2">MENU</h1>
 
-                <div class="flex flex-col text-left">
-                    <label for="format" class="mb-1">
-                        Format de sortie
-                    </label>
-                    <select
-                        id="format"
-                        name="format"
-                        class="text-black rounded px-2 py-1"
-                        required
-                    >
-                        <option value="" disabled selected>
-                            Sélectionner un format
-                        </option>
-                        <option value="jpeg">JPEG</option>
-                        <option value="png">PNG</option>
-                        <option value="webp">WEBP</option>
-                        <option value="pdf">PDF</option>
-                    </select>
-                </div>
+					<ul class="flex gap-4 overflow-x-auto pb-4 whitespace-nowrap">
+						{% if app.user %}
+							<li>
+								<a href="/logout" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-full cursor-pointer inline-flex items-center">Deconnexion</a>
+							</li>
+						{% else %}
+							<li>
+								<a href="/login" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-full cursor-pointer inline-flex items-center">Connexion</a>
+							</li>
+						{% endif %}
+						<li>
+							<a href="/gestionnaire" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-full cursor-pointer inline-flex items-center">Gestionnaire de mot de passe</a>
+						</li>
+						<li>
+							<a href="/gestionnaire/add-master-key" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-full cursor-pointer inline-flex items-center">Création Master Key</a>
+						</li>
 
-                <button
-                    type="submit"
-                    class="bg-blue-600 text-white rounded py-2 hover:bg-blue-700 transition"
-                >
-                    Convertir
-                </button>
-            </form>
-        </div>
-    </section>
+						<li>
+							<a href="/converter" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-full cursor-pointer inline-flex items-center">Convertir une Image</a>
+						</li>
+					</ul>
+				</nav>
+
+				<div class="bg-slate-800 rounded-md p-4">
+					<h2>Explication</h2>
+					<p class="text-slate-500">
+						Application utilitaire pour but d'ameliorer mon quotidien,
+						<br>
+						avec l'ajout d'un convertisseur d'image,<br>
+						l'ajout prochainement d'un gestionnaire de
+						<br>
+						mot de passe 100% locale etc...
+					</p>
+				</div>
+
+			</div>
+		</div>
+	</section>
 {% endblock %}
+
+
+{# {% extends 'base.html.twig' %}
+
+{% block title %}Accueil
+{% endblock %}
+
+{% block body %}
+
+
+	<section class="min-h-screen flex items-start justify-center p-4 bg-gray-900">
+    <div class="flex flex-col md:flex-row gap-4 w-full max-w-4xl">
+
+        <!-- NAV -->
+        <nav class="bg-slate-800 rounded-md p-4 flex-shrink-0 min-w-[200px]">
+            <h1 class="p-2 text-white font-bold">MENU</h1>
+            <ul class="flex flex-row md:flex-col gap-2 overflow-x-auto md:overflow-x-visible pb-2">
+                <li>
+                    <a href="/" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-full cursor-pointer">Accueil</a>
+                </li>
+                <li>
+                    <a href="/converter" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-full cursor-pointer">Convertir une Image</a>
+                </li>
+                <li>
+                    <a href="/gestionnaire" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-full cursor-pointer">Gestionnaire de mot de passe</a>
+                </li>
+                <li>
+                    <a href="/" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-full cursor-pointer">Autre lien long test</a>
+                </li>
+                <li>
+                    <a href="/" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-full cursor-pointer">Encore un lien</a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- CONTENU -->
+        <div class="bg-slate-800 rounded-md p-4 flex-1">
+            <h2 class="text-white font-semibold mb-2">Explication</h2>
+            <p class="text-slate-400">
+                Application utilitaire pour améliorer mon quotidien,<br>
+                avec l'ajout d'un convertisseur d'image,<br>
+                l'ajout prochainement d'un gestionnaire de mot de passe 100% local, etc...
+            </p>
+        </div>
+
+    </div>
+</section>
+{% endblock %} #}
