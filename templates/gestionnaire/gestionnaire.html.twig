@@ -44,14 +44,17 @@
 								{% endif %}
 							</td>
 							<td class="px-4 py-2 text-center cursor-pointer hover:text-blue-600">
-								<a href="#">
+								<a href="{{ path('app_gestionnaire_update', { uuid: data.uuid }) }}">
 									<i class="fa-solid fa-file-pen"></i>
 								</a>
 							</td>
 							<td class="px-4 py-2 text-center cursor-pointer hover:text-red-600">
-								<a href="#">
-									<i class="fa fa-trash"></i>
-								</a>
+								<form method="post" action="{{ path('app_gestionnaire_delete', { uuid: data.uuid }) }}" onsubmit="return confirm('Confirmer la suppression ?');">
+									<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ data.uuid) }}">
+									<button class="btn btn-link p-0">
+										<i class="fa fa-trash"></i>
+									</button>
+								</form>
 							</td>
 						</tr>
 					{% else %}

@@ -67,7 +67,12 @@ final class ListGestionnaireController extends AbstractController
                 $tag
             );
 
+            if ($plaintext === false) {
+                throw new \Exception('Erreur de déchiffrement');
+            }
+
             $decryptedPasswords[] = [
+                'uuid' => $entry->getUuid(),
                 'site' => $entry->getSite(),
                 'url' => $entry->getUrl(),
                 'identifier' => $entry->getIdentifier(),

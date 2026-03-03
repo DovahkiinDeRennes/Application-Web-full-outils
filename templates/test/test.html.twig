@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil
+{% endblock %}
+
+{% block body %}
+	<section class="min-h-screen flex items-center justify-center text-center p-2 flex flex-col">
+		<div class="bg-slate-800 p-6 rounded-lg text-white w-full xs:max-w-xl md:max-w-4xl lg:max-w-7xl overflow-x-auto">
+			<h2>Page de test pour extension</h2>
+			<form id="loginForm">
+				<label>Email:</label><br>
+				<input class="text-black" type="text" name="user" id="username" placeholder="Email"><br><br>
+
+				<label>Mot de passe:</label><br>
+				<input class="text-black" type="password" name="password" id="password" placeholder="Mot de passe"><br><br>
+
+				<button type="submit">Se connecter</button>
+			</form>
+		</div>
+	</section>
+	<script>
+		// Pour test rapide, juste afficher ce que l'utilisateur a mis
+document.getElementById('loginForm').addEventListener('submit', (e) => {
+e.preventDefault();
+alert(`Username: ${
+document.getElementById('username').value
+}\nPassword: ${
+document.getElementById('password').value
+}`);
+});
+	</script>
+
+{% endblock %}

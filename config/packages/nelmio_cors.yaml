@@ -1,0 +1,12 @@
+nelmio_cors:
+    defaults:
+        allow_credentials: true
+        allow_origin: ['chrome-extension://ngajhejobijcneljcjnnffcmcmoaenli']
+        allow_methods: ['GET', 'POST', 'OPTIONS']
+        allow_headers: ['Content-Type', 'Authorization']
+    paths:
+        '^/api/':
+            allow_origin: ['chrome-extension://ngajhejobijcneljcjnnffcmcmoaenli']
+            allow_credentials: true
+            allow_methods: ['GET', 'POST', 'OPTIONS']
+            allow_headers: ['Content-Type', 'Authorization']

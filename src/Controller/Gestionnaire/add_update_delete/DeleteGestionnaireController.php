@@ -28,5 +28,45 @@ final class DeleteGestionnaireController extends AbstractController
         $this->em = $em;
     }
 
-   
+    #[Route('/gestionnaire/delete-password-list/{uuid}', name: 'app_gestionnaire_delete', methods: ['POST'])]
+    public function deleteNewPassword($uuid,Request $request, ImageFormatService $imageFormatService, EntityManagerInterface $em): Response
+    {
+
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        if (!$user->getMasterKeyHash() && !$user->getMasterSalt()) {
+            return $this->redirectToRoute('app_gestionnaire_add_master_key');
+        }
+     
+
+        $deletePassword = $this->apr->findOneBy([
+            'uuid' => $uuid,
+            'user' => $user
+        ]);
+        
+        if (!$deletePassword) {
+            throw new \Exception("L'utilisateur connecté n'a pas ce password associé");
+        }
+
+        if ($request->isMethod('POST')) {
+
+            $key = base64_decode($request->getSession()->get('vault_key'));
+
+            if (!$key) {
+                throw new \Exception('Vault locked');
+            }
+
+    
+            $this->em->remove($deletePassword);
+            $this->em->flush();
+            return $this->redirectToRoute('app_gestionnaire');
+        }
+
+
+
+        return $this->redirectToRoute('app_gestionnaire');
+    }
 }

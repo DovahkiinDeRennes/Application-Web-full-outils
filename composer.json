@@ -11,6 +11,7 @@
         "doctrine/doctrine-migrations-bundle": "^4.0",
         "doctrine/orm": "^3.6",
         "intervention/image": "^3.11",
+        "nelmio/cors-bundle": "^2.6",
         "setasign/fpdf": "^1.8",
         "symfony/console": "8.0.*",
         "symfony/dotenv": "8.0.*",

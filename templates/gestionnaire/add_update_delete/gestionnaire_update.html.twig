@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification mot de passe{% endblock %}
+
+{% block body %}
+    {% include 'component/navBar.html.twig'  %}
+
+    <section class="min-h-screen flex items-center justify-center text-center p-2 flex flex-col">
+        <div class="bg-slate-800 p-6 rounded-lg text-white w-full xs:max-w-xl md:max-w-4xl lg:max-w-7xl overflow-x-auto">
+
+            <form 
+                class="text-left flex flex-col gap-4" 
+                method="POST" 
+                action="{{ path('app_gestionnaire_update', { uuid: passwordEntry.uuid }) }}"
+            >
+
+                {# 🔐 CSRF #}
+                <input type="hidden" name="_token" value="{{ csrf_token('update' ~ passwordEntry.uuid) }}">
+
+                <div class="flex flex-row gap-4">
+                    <div class="flex flex-col w-full">
+                        <label for="site" class="mb-1">
+                            Nom du site
+                        </label>
+                        <input 
+                            id="site" 
+                            type="text" 
+                            name="site" 
+                            value="{{ passwordEntry.site }}" 
+                            class="text-sm text-black px-2 py-1 rounded"
+                            required
+                        >
+                    </div>
+
+                    <div class="flex flex-col w-full">
+                        <label for="url" class="mb-1">
+                            Url du site
+                        </label>
+                        <input 
+                            id="url" 
+                            type="text" 
+                            name="url" 
+                            value="{{ passwordEntry.url }}" 
+                            class="text-sm text-black px-2 py-1 rounded"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <div class="flex flex-col">
+                    <label for="identifier" class="mb-1">
+                        Identifiant du site
+                    </label>
+                    <input 
+                        id="identifier" 
+                        type="text" 
+                        name="identifier" 
+                        value="{{ passwordEntry.identifier }}" 
+                        class="text-sm text-black px-2 py-1 rounded"
+                        required
+                    >
+                </div>
+
+                <div class="flex flex-col">
+                    <label for="password" class="mb-1">
+                        Nouveau mot de passe
+                    </label>
+                    <input 
+                        id="password" 
+                        type="password" 
+                        name="password" 
+                        class="text-sm text-black px-2 py-1 rounded"
+                        placeholder="Laisser vide pour ne pas modifier"
+                    >
+                </div>
+
+                <button 
+                    type="submit" 
+                    class="px-4 bg-blue-600 text-white rounded py-2 hover:bg-blue-700 transition"
+                >
+                    Mettre à jour
+                </button>
+
+            </form>
+        </div>
+    </section>
+{% endblock %}
