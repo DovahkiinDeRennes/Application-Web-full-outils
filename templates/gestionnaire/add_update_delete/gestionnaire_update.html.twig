@@ -5,16 +5,14 @@
 {% block body %}
     {% include 'component/navBar.html.twig'  %}
 
-    <section class="min-h-screen flex items-center justify-center text-center p-2 flex flex-col">
-        <div class="bg-slate-800 p-6 rounded-lg text-white w-full xs:max-w-xl md:max-w-4xl lg:max-w-7xl overflow-x-auto">
+    <section class="min-h-screen flex items-center justify-center text-center p-2 flex px-[30%] flex-col">
+        <div class="bg-slate-800 p-6 rounded-lg text-white w-full overflow-x-auto">
 
             <form 
                 class="text-left flex flex-col gap-4" 
                 method="POST" 
                 action="{{ path('app_gestionnaire_update', { uuid: passwordEntry.uuid }) }}"
             >
-
-                {# 🔐 CSRF #}
                 <input type="hidden" name="_token" value="{{ csrf_token('update' ~ passwordEntry.uuid) }}">
 
                 <div class="flex flex-row gap-4">
@@ -27,7 +25,7 @@
                             type="text" 
                             name="site" 
                             value="{{ passwordEntry.site }}" 
-                            class="text-sm text-black px-2 py-1 rounded"
+                            class="p-1 rounded-lg bg-white text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
                             required
                         >
                     </div>
@@ -41,7 +39,7 @@
                             type="text" 
                             name="url" 
                             value="{{ passwordEntry.url }}" 
-                            class="text-sm text-black px-2 py-1 rounded"
+                            class="p-1 rounded-lg bg-white text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
                             required
                         >
                     </div>
@@ -56,7 +54,7 @@
                         type="text" 
                         name="identifier" 
                         value="{{ passwordEntry.identifier }}" 
-                        class="text-sm text-black px-2 py-1 rounded"
+                        class="p-1 rounded-lg bg-white text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required
                     >
                 </div>
@@ -69,7 +67,7 @@
                         id="password" 
                         type="password" 
                         name="password" 
-                        class="text-sm text-black px-2 py-1 rounded"
+                        class="p-1 rounded-lg bg-white text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="Laisser vide pour ne pas modifier"
                     >
                 </div>

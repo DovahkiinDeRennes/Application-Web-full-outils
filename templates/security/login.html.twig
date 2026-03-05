@@ -5,32 +5,59 @@
 
 {% block body %}
 
-
-
-	{% include 'component/navBar.html.twig'  %}
     
-	<section class="min-h-screen flex items-center justify-center text-center p-2">
-		<div class="bg-slate-800 p-6 rounded-lg text-white w-full xs:max-w-xl md:max-w-xl lg:max-w-7xl overflow-x-auto">
-			<div class="flex flex-col gap-10">
-				<h1>CONNEXION</h1>
+	<section class="min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-md bg-slate-800 p-8 rounded-2xl shadow-xl text-white">
 
-				{% if error %}
-					<div style="color: red;">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-				{% endif %}
+        <h1 class="text-2xl md:text-3xl font-bold text-center mb-8">
+            CONNEXION
+        </h1>
 
-				<form action="{{ path('app_login') }}" method="post" class="flex flex-col text-left gap-4">
-					<div class="flex flex-col">
-						<label for="username">Nom d'utilisateur:</label>
-						<input class="text-black" type="text" id="username" name="_username" value="{{ last_username }}" required autofocus>
-					</div>
-					<div class="flex flex-col">
-						<label for="password">Mot de passe:</label>
-						<input class="text-black" type="password" id="password" name="_password" required>
-					</div>
-					<button type="submit">Se connecter</button>
-				</form>
-			</div>
-		</div>
-	</section>
+        {% if error %}
+            <div class="bg-red-500/20 border border-red-500 text-red-400 p-3 rounded-lg mb-6 text-sm">
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
+        {% endif %}
+
+        <form action="{{ path('app_login') }}" method="post" class="flex flex-col gap-6">
+
+            <div class="flex flex-col gap-2">
+                <label for="username" class="text-md  text-slate-300">
+                    Nom d'utilisateur
+                </label>
+                <input
+                    class="p-3 rounded-lg bg-white text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    type="text"
+                    id="username"
+                    name="_username"
+                    value="{{ last_username }}"
+                    required
+                    autofocus
+                >
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <label for="password" class="text-md  text-slate-300">
+                    Mot de passe
+                </label>
+                <input
+                    class="p-3 rounded-lg bg-white text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    type="password"
+                    id="password"
+                    name="_password"
+                    required
+                >
+            </div>
+
+            <button
+                type="submit"
+                class="mt-4 bg-blue-600 hover:bg-blue-700 transition duration-200 p-3 rounded-lg font-semibold"
+            >
+                Se connecter
+            </button>
+
+        </form>
+    </div>
+</section>
 
 {% endblock %}

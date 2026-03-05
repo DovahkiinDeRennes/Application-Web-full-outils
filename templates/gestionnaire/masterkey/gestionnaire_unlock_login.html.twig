@@ -1,0 +1,41 @@
+{# templates/gestionnaire_unlock.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Déverrouiller le coffre
+{% endblock %}
+
+{% block body %}
+	<section class=" flex items-center flex flex-col">
+		<div class="bg-slate-800 p-6 rounded-lg text-white w-full xs:max-w-xl md:max-w-4xl lg:max-w-7xl overflow-x-auto  border-2 border-slate-700">
+			{% if user.MasterKeyHash is not empty and  user.MasterKeyHash is defined %}
+				<form method="POST" action="{{ path('app_gestionnaire_login_master_key') }}">
+					<div class="mb-3 flex flex-col gap-4">
+						<label for="masterkey" class="form-label text-left">Veuillez "taper" votre Mot de passe maître pour accèder à vos Mot de passe</label>
+						<input class="p-1 rounded-lg bg-white text-black focus:outline-none focus:ring-2 focus:ring-blue-500" type="password" id="masterkey" name="masterkey" class="form-control" required autocomplete="off">
+					</div>
+
+					<button type="submit" class="px-4 bg-blue-600 text-white rounded py-2 hover:bg-blue-700 transition">Déverrouiller</button>
+				</form>
+			{% else %}
+				<form method="POST" action="{{ path('app_gestionnaire_add_master_key') }}">
+					<div  class="mb-3 flex flex-col gap-4">
+						<label for="masterkey" class="mb-1 text-left">
+						 Veuillez créer votre Master Key. Attention : ne la perdez surtout pas, sinon vous ne pourrez plus accéder à vos mots de passe.
+						</label>
+						<input id="masterkey" type="text" name="masterkey" class="p-1 rounded-lg bg-white text-black focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+					</div>
+					<button type="submit" class="px-4 bg-blue-600 text-white rounded py-2 hover:bg-blue-700 transition">
+						Ajouter
+					</button>
+				</form>
+			{% endif %}
+		</div>
+	</section>
+	{% if app.flashes('error') %}
+		<div class="alert alert-danger mt-3">
+			{% for message in app.flashes('error') %}
+				{{ message }}
+			{% endfor %}
+		</div>
+	{% endif %}
+{% endblock %}

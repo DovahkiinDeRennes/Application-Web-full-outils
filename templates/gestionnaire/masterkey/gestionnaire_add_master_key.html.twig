@@ -4,10 +4,8 @@
 {% endblock %}
 
 {% block body %}
-	<style></style>
-	{% include 'component/navBar.html.twig'  %}
-	<section class="min-h-screen flex items-center justify-center text-center p-2 flex flex-col">
-		<div class="bg-slate-800 p-6 rounded-lg text-white w-full xs:max-w-xl md:max-w-4xl lg:max-w-7xl overflow-x-auto">
+	<section class="flex items-center text-center flex flex-col">
+		<div class="bg-slate-800 p-6 rounded-lg text-white w-full xs:max-w-xl md:max-w-4xl lg:max-w-7xl overflow-x-auto border-2 border-slate-700">
 
 			<form class="text-left flex flex-col gap-4" method="POST" action="{{ path('app_gestionnaire_add_master_key') }}">
 				<div class="flex flex-row gap-4">

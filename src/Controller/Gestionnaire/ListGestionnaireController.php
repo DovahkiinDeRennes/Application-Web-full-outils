@@ -37,21 +37,27 @@ final class ListGestionnaireController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        if (!$user->getMasterKeyHash() && !$user->getMasterSalt()) {
-            return $this->redirectToRoute('app_gestionnaire_add_master_key');
-        }
-
         $session = $request->getSession();
+
         $key = base64_decode($session->get('vault_key'));
 
+        $check = true;
+
         if (!$key) {
-            throw new \Exception('Vault locked, veuillez déverrouiller le coffre.');
+            $check = false;
+            return $this->render('gestionnaire/gestionnaire.html.twig', [
+                'check' => $check
+            ]);
         }
-
-        
-        $datasUser = $this->apr->findBy(['user' => $user]);
-
-
+     
+        $query = $request->query->get('query');
+    
+        if($query){
+            $datasUser = $this->apr->searchByQuery($query,$user);
+        }else{
+            $datasUser = $this->apr->findBy(['user' => $user]);
+        }
+    
         $decryptedPasswords = [];
         foreach ($datasUser as $entry) {
             $ciphertext = base64_decode($entry->getPassword());
@@ -83,6 +89,8 @@ final class ListGestionnaireController extends AbstractController
         return $this->render('gestionnaire/gestionnaire.html.twig', [
             'datas' => $decryptedPasswords,
             'user' => $user->getEmail(),
+            'check' => $check,
+            'masterKeyHash' => $user->getMasterKeyHash(),
         ]);
     }
 

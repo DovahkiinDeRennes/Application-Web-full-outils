@@ -1,73 +1,113 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil
+{% block title %}Gestionnaire
 {% endblock %}
 
 {% block body %}
-	<style></style>
-	{% include 'component/navBar.html.twig'  %}
-	<section class="min-h-screen flex items-center justify-center text-center p-2 flex flex-col">
-		<div class="flex justify-end w-full gap-4 xs:max-w-xl md:max-w-4xl lg:max-w-7xl mb-4">
-			<a href="{{ path('app_gestionnaire_add') }}" class="text-white cursor-pointer bg-slate-800 hover:bg-slate-700 p-2 rounded-lg">
-				AJOUTER
-			</a>
-		</div>
-		<div class="bg-slate-800 p-6 rounded-lg text-white w-full xs:max-w-xl md:max-w-4xl lg:max-w-7xl overflow-x-auto">
-			<table class="w-full text-left border-collapse">
-				<thead>
-					<tr class="border-b border-slate-600">
-						<th class="px-4 py-2">URL + Site</th>
-						<th class="px-4 py-2">Identifiant</th>
-						<th class="px-4 py-2">Mot de passe</th>
-						<th class="px-4 py-2 text-center">Modifier</th>
-						<th class="px-4 py-2 text-center">Supprimer</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for data in datas %}
-						<tr class="border-b border-slate-700 hover:bg-slate-900">
-							<td class="px-4 py-2 italic">
-								<a target="_blank" href="{{ data.url }}">{{ data.site }}</a>
-							</td>
-							<td class="px-4 py-2">
-								{% if data.identifier|length > 15 %}
-									<p class="">{{ data.identifier|slice(0,15)}}...</p>
-								{% else %}
-									<p class="">{{ data.identifier }}</p>
-								{% endif %}
-							</td>
-							<td class="copiable px-4 py-2 password-hidden hover:text-red-600" data-value="{{ data.password }}">
-								{% if  data.password|length > 15 %}
-									<p class="">{{ data.password|slice(0,15)}}...</p>
-								{% else %}
-									<p class="">{{ data.password }}</p>
-								{% endif %}
-							</td>
-							<td class="px-4 py-2 text-center cursor-pointer hover:text-blue-600">
-								<a href="{{ path('app_gestionnaire_update', { uuid: data.uuid }) }}">
-									<i class="fa-solid fa-file-pen"></i>
-								</a>
-							</td>
-							<td class="px-4 py-2 text-center cursor-pointer hover:text-red-600">
-								<form method="post" action="{{ path('app_gestionnaire_delete', { uuid: data.uuid }) }}" onsubmit="return confirm('Confirmer la suppression ?');">
-									<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ data.uuid) }}">
-									<button class="btn btn-link p-0">
-										<i class="fa fa-trash"></i>
-									</button>
-								</form>
-							</td>
-						</tr>
+
+	<section class="min-h-screen flex items-center justify-center text-center p-2 flex flex-col px-[10%]">
+		<div class="">
+			<div class="flex {% if check == true %} justify-between {% else  %} justify-end {% endif %} w-full gap-4 mb-4">
+				<div class="flex flex-row">
+					{% if check == true %}
+						<form class="text-left flex flex-row gap-4" method="GET" action="{{ path('app_gestionnaire') }}" data-turbo="false">
+							<input id="query" type="text" name="query" class="p-1 rounded-lg bg-white text-black focus:outline-none focus:ring-2 focus:ring-blue-500">
+							<button type="submit" class="px-2 bg-blue-600 text-white rounded py-2 hover:bg-blue-700 transition">
+								Rechercher
+							</button>
+						</form>
+					{% endif %}
+				</div>
+				<div class="flex gap-4">
+					{% if check == true %}
+						<a href="{{ path('app_gestionnaire_add') }}" class="px-4 bg-blue-600 text-white rounded py-2 hover:bg-blue-700 transition">
+							AJOUTER
+						</a>
+					{% endif %}
+					<a href="{{ path('app_logout') }}" class="px-4 bg-blue-600 text-white rounded py-2 hover:bg-blue-700 transition">
+						DECONNEXION
+					</a>
+				</div>
+			</div>
+			<div class="flex flex-col md:flex-row gap-4">
+				<div class="bg-slate-800 p-6 rounded-lg text-white w-full xs:max-w-xl md:max-w-4xl lg:max-w-7xl overflow-x-auto border-2 border-slate-700 w-2/3 self-start">
+					<table class="w-full text-left border-collapse">
+						<thead>
+							<tr class="border-b border-slate-600">
+								<th class="px-4 py-2">URL + Site</th>
+								<th class="px-4 py-2">Identifiant</th>
+								<th class="px-4 py-2">Mot de passe</th>
+								<th class="px-4 py-2 text-center">Modifier</th>
+								<th class="px-4 py-2 text-center">Supprimer</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% if check == true %}
+								{% for data in datas %}
+									<tr class="border-b border-slate-700 hover:bg-slate-900">
+										<td class="px-4 py-2 italic">
+											<a target="_blank" href="{{ data.url }}">{{ data.site }}</a>
+										</td>
+										<td class="px-4 py-2">
+											{% if data.identifier|length > 15 %}
+												<p class="">{{ data.identifier|slice(0,15)}}...</p>
+											{% else %}
+												<p class="">{{ data.identifier }}</p>
+											{% endif %}
+										</td>
+										<td class="copiable px-4 py-2 password-hidden hover:text-red-600" data-value="{{ data.password }}">
+											{% if  data.password|length > 15 %}
+												<p class="">{{ data.password|slice(0,15)}}...</p>
+											{% else %}
+												<p class="">{{ data.password }}</p>
+											{% endif %}
+										</td>
+										<td class="px-4 py-2 text-center cursor-pointer hover:text-blue-600">
+											<a href="{{ path('app_gestionnaire_update', { uuid: data.uuid }) }}">
+												<i class="fa-solid fa-file-pen"></i>
+											</a>
+										</td>
+										<td class="px-4 py-2 text-center cursor-pointer hover:text-red-600">
+											<form method="post" action="{{ path('app_gestionnaire_delete', { uuid: data.uuid }) }}" onsubmit="return confirm('Confirmer la suppression ?');">
+												<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ data.uuid) }}">
+												<button class="btn btn-link p-0">
+													<i class="fa fa-trash"></i>
+												</button>
+											</form>
+										</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						{% endif %}
+					</table>
+					{% if datas is defined and datas is empty %}
+						<p class="mt-4">Aucun Mot de passe enregistrer</p>
+					{% endif %}
+					{% if check == false  %}
+						<p class="mt-4">Aucun Mot de passe enregistrer</p>
+					{% endif %}
+				</div>
+
+				<div class="flex flex-col gap-4 w-1/3">
+					{% if check == false %}
+						{{ render(controller('App\\Controller\\MasterKey\\MasterKeyController::loginMasterKey')) }}
 					{% else %}
-						<tr class="border-b border-slate-700 hover:bg-slate-900">
-							<td class="text-center">Aucun</td>
-							<td class="text-center">mot</td>
-							<td class="text-center">de</td>
-							<td class="text-center">passe</td>
-							<td class="text-center">enregistrer</td>
-						</tr>
-					{% endfor %}
-				</tbody>
-			</table>
+						{% if masterKeyHash is empty %}
+							{{ render(controller('App\\Controller\\MasterKey\\MasterKeyController::addMasterKey')) }}
+						{% endif %}
+					{% endif %}
+					<div class="bg-slate-800 rounded-md p-4 border-2 border-slate-700 gap-4 flex flex-col">
+						<h2 class="text-white text-xl">Explication</h2>
+						<p class="text-white text-left">
+							Gestionnaire de mots de passe 100% local. Commencez par créer un mot de passe Maître, puis connectez-vous avec celui-ci.  
+														    Lors de l'ajout d'un mot de passe, indiquez l'URL exacte du formulaire de connexion. Si le formulaire s'ouvre dans une popup, renseignez l'URL de la page où vous avez cliqué.  
+														    Si cela ne fonctionne pas, certaines sécurités du site peuvent bloquer l'intégration. L'extension liée à ce gestionnaire complète automatiquement vos données dans le formulaire de connexion.  
+														    Vos mots de passe sont évidemment chiffrés et stockés localement, garantissant une sécurité totale.
+						</p>
+					</div>
+				</div>
+
+			</div>
 		</div>
 	</section>
 

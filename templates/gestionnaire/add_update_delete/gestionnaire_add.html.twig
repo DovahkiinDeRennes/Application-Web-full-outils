@@ -6,8 +6,8 @@
 {% block body %}
 	<style></style>
 	{% include 'component/navBar.html.twig'  %}
-	<section class="min-h-screen flex items-center justify-center text-center p-2 flex flex-col">
-		<div class="bg-slate-800 p-6 rounded-lg text-white w-full xs:max-w-xl md:max-w-4xl lg:max-w-7xl overflow-x-auto">
+	<section class="min-h-screen flex items-center justify-center text-center flex flex-col px-[30%]">
+		<div class="bg-slate-800 p-6 rounded-lg text-white w-full overflow-x-auto">
 
 			<form class="text-left flex flex-col gap-4" method="POST" action="{{ path('app_gestionnaire_add') }}">
 				<div class="flex flex-row gap-4">
@@ -15,26 +15,26 @@
 						<label for="site" class="mb-1">
 							Nom du site
 						</label>
-						<input id="site" type="text" name="site" class="text-sm text-black" required>
+						<input id="site" type="text" name="site" class="p-1 rounded-lg bg-white text-black focus:outline-none focus:ring-2 focus:ring-blue-500" required>
 					</div>
 					<div class="flex flex-col">
 						<label for="url" class="mb-1">
 							Url du site
 						</label>
-						<input id="url" type="text" name="url" class="text-sm text-black" required>
+						<input id="url" type="text" name="url" class="p-1 rounded-lg bg-white text-black focus:outline-none focus:ring-2 focus:ring-blue-500" required>
 					</div>
 				</div>
 				<div class="flex flex-col">
 					<label for="identifier" class="mb-1">
 						Identifiant du site
 					</label>
-					<input id="identifier" type="text" name="identifier" class="text-sm text-black" required>
+					<input id="identifier" type="text" name="identifier" class="p-1 rounded-lg bg-white text-black focus:outline-none focus:ring-2 focus:ring-blue-500" required>
 				</div>
 				<div class="flex flex-col">
 					<label for="password" class="mb-1">
 						Mot de passe du site
 					</label>
-					<input id="password" type="password" name="password" class="text-sm text-black" required>
+					<input id="password" type="password" name="password" class="p-1 rounded-lg bg-white text-black focus:outline-none focus:ring-2 focus:ring-blue-500" required>
 				</div>
 				<button type="submit" class="px-2 bg-blue-600 text-white rounded py-2 hover:bg-blue-700 transition">
 					Ajouter
