@@ -28,7 +28,7 @@ final class DeleteGestionnaireController extends AbstractController
         $this->em = $em;
     }
 
-    #[Route('/gestionnaire/delete-password-list/{uuid}', name: 'app_gestionnaire_delete', methods: ['POST'])]
+    #[Route('/gestionnaire/mot-de-passe/{uuid}/supprimer', name: 'app_gestionnaire_delete', methods: ['POST'])]
     public function deleteNewPassword($uuid,Request $request, ImageFormatService $imageFormatService, EntityManagerInterface $em): Response
     {
 
@@ -38,7 +38,7 @@ final class DeleteGestionnaireController extends AbstractController
         }
 
         if (!$user->getMasterKeyHash() && !$user->getMasterSalt()) {
-            return $this->redirectToRoute('app_gestionnaire_add_master_key');
+             return $this->redirectToRoute('app_logout');
         }
      
 
@@ -50,7 +50,7 @@ final class DeleteGestionnaireController extends AbstractController
         if (!$deletePassword) {
             throw new \Exception("L'utilisateur connecté n'a pas ce password associé");
         }
-
+        $id = $request->query->get('id');
         if ($request->isMethod('POST')) {
 
             $key = base64_decode($request->getSession()->get('vault_key'));
@@ -62,11 +62,25 @@ final class DeleteGestionnaireController extends AbstractController
     
             $this->em->remove($deletePassword);
             $this->em->flush();
-            return $this->redirectToRoute('app_gestionnaire');
+            if (!empty($id)) {
+  
+                return $this->redirectToRoute('app_gestionnaire_folder', [
+                    'id' => $id
+                ]);
+            } else {
+                return $this->redirectToRoute('app_gestionnaire');
+            }
         }
 
 
 
-        return $this->redirectToRoute('app_gestionnaire');
+       if (!empty($id)) {
+  
+                return $this->redirectToRoute('app_gestionnaire_folder', [
+                    'id' => $id
+                ]);
+            } else {
+                return $this->redirectToRoute('app_gestionnaire');
+            }
     }
 }

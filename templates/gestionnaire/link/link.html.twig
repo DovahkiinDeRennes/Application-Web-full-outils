@@ -1,0 +1,50 @@
+
+{% if check %}
+    <form
+        class="flex flex-row gap-4 max-[600px]:flex-wrap  max-[600px]:w-full"
+        method="GET"
+        action="{{ path('app_gestionnaire') }}"
+        data-turbo="false"
+    >
+
+        <input
+            id="query"
+            type="text"
+            name="query"
+            placeholder="Rechercher..."
+            value="{{ app.request.query.get('query') }}"
+            class="p-2 rounded bg-white text-black  max-[600px]:w-full"
+        >
+
+        <button type="submit" class="button-action px-4 rounded py-2 transition">
+            Recherche
+        </button>
+
+    </form>
+
+{% endif %}
+
+<div class="flex flex-wrap gap-4  max-[600px]:w-full max-[600px]:text-center">
+
+    {% if check %}
+
+        <a href="{{ path('app_gestionnaire_add') }}"class="button-action px-4 rounded py-2 transition">
+            CREEZ MDP
+        </a>
+
+        <a href="{{ path('app_gestionnaire_add_folder') }}" class="button-action px-4 rounded py-2 transition">
+            CREEZ DOSSIER
+        </a>
+
+    {% endif %}
+
+
+    <a href="{{ path('app_logout') }}" class="button-action px-4 rounded py-2 transition">
+        DECONNEXION
+    </a>
+    <span disabled class="button-action px-4 rounded py-2 transition opacity-50">
+         <i class="fa-solid fa-gear"></i>
+    </span>
+   
+
+</div>

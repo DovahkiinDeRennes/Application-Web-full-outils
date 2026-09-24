@@ -22,8 +22,7 @@ final class IndexController extends AbstractController
             return $this->redirectToRoute('app_login');
             
         }
-        return $this->render('/index.html.twig', [
-        ]);
+         return $this->redirectToRoute('app_gestionnaire');
     }
 
 

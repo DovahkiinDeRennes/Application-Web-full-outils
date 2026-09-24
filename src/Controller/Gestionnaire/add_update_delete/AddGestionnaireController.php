@@ -5,6 +5,7 @@ namespace App\Controller\Gestionnaire\add_update_delete;
 use App\Entity\AllPassword;
 use App\Repository\AllPasswordRepository;
 use App\Repository\UserRepository;
+use App\Repository\FolderRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
@@ -20,16 +21,19 @@ final class AddGestionnaireController extends AbstractController
     private UserRepository $ur;
     private AllPasswordRepository $apr;
     private EntityManagerInterface $em;
+    private FolderRepository $fr;
 
-    public function __construct(UserRepository $ur, AllPasswordRepository $apr, EntityManagerInterface $em)
+    public function __construct(UserRepository $ur, AllPasswordRepository $apr, FolderRepository $fr, EntityManagerInterface $em)
     {
         $this->ur = $ur;
         $this->apr = $apr;
         $this->em = $em;
+        $this->fr = $fr;
     }
-
-    #[Route('/gestionnaire/add-password-list', name: 'app_gestionnaire_add')]
-    public function addNewPassword(Request $request, ImageFormatService $imageFormatService, EntityManagerInterface $em): Response
+    
+    #[Route('/gestionnaire/mot-de-passe/nouveau', name: 'app_gestionnaire_add')]
+    #[Route('/gestionnaire/mot-de-passe/{id}/nouveau', name: 'app_gestionnaire_add_mdp_folder')]
+    public function addNewPassword(?int $id, Request $request, ImageFormatService $imageFormatService, EntityManagerInterface $em): Response
     {
 
         $user = $this->getUser();
@@ -38,15 +42,28 @@ final class AddGestionnaireController extends AbstractController
         }
 
         if (!$user->getMasterKeyHash() && !$user->getMasterSalt()) {
-            return $this->redirectToRoute('app_gestionnaire_add_master_key');
+             return $this->redirectToRoute('app_logout');
         }
 
+        $folders = $this->fr->findBy(['user' => $user]);
+        $findFolder = null;
+      
+        if (!empty($id)) {
+            try {
+                $findFolder = $this->fr->findOneBy([
+                    'id' => $id
+                ]);
+            } catch (\Throwable $e) {
+            }
+        }
+     
         if ($request->isMethod('POST')) {
 
             $url = $request->request->get('url');
             $identifier = $request->request->get('identifier');
             $site = $request->request->get('site');
             $password = $request->request->get('password');
+            $idFolder = $request->request->get('folder');
 
             $key = base64_decode($request->getSession()->get('vault_key'));
 
@@ -80,14 +97,49 @@ final class AddGestionnaireController extends AbstractController
             $addNewPasswordList->setNonce(base64_encode($nonce));
             $addNewPasswordList->setTag(base64_encode($tag));
 
+            if (!empty($idFolder)) {
+                try {
+                    $findFolder = $this->fr->findOneBy([
+                        'id' => $idFolder
+                    ]);
+
+                    if ($findFolder !== null) {
+                        $addNewPasswordList->setFolder($findFolder);
+                    }
+                } catch (\Throwable $e) {
+                }
+            } else if (!empty($id)) {
+                try {
+                    $findFolder = $this->fr->findOneBy([
+                        'id' => $id
+                    ]);
+
+                    if ($findFolder !== null) {
+                        $addNewPasswordList->setFolder($findFolder);
+                    }
+                } catch (\Throwable $e) {
+                }
+            } else {
+                // Aucun dossier associer
+            }
+
+     
 
             $this->em->persist($addNewPasswordList);
             $this->em->flush();
-            return $this->redirectToRoute('app_gestionnaire');
+            if (!empty($id)) {
+  
+                return $this->redirectToRoute('app_gestionnaire_folder', [
+                    'id' => $id
+                ]);
+            } else {
+                return $this->redirectToRoute('app_gestionnaire');
+            }
         }
 
 
 
-        return $this->render('gestionnaire/add_update_delete/gestionnaire_add.html.twig', []);
+        return $this->render('gestionnaire/add_update_delete/gestionnaire_add.html.twig', ["folders" => $folders, "folderUrl" => $findFolder, "id" => $id]);
     }
+    
 }

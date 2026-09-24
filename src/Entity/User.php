@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use App\Entity\AllPassword;
+use App\Entity\Folder;
 
 #[ORM\Entity]
 #[ORM\Table(name: '`user`')]
@@ -38,12 +39,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $masterKeyHash = null;
 
-    #[ORM\Column(length: 64)]
-    private string $masterSalt;
+    #[ORM\Column(length: 64, nullable: true)]
+    private ?string $masterSalt = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Folder::class)]
+    private Collection $folders;
+
+    #[ORM\Column(type: 'string', length: 64, nullable: true)]
+    private ?string $name = null;
+
 
     public function __construct()
     {
         $this->allPasswords = new ArrayCollection();
+        $this->folders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -126,23 +135,64 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->masterKeyHash;
     }
-    
+
     public function setMasterKeyHash(?string $masterKeyHash): self
     {
         $this->masterKeyHash = $masterKeyHash;
-    
+
         return $this;
     }
-    
+
     public function getMasterSalt(): string
     {
         return $this->masterSalt;
     }
-    
+
     public function setMasterSalt(string $masterSalt): self
     {
         $this->masterSalt = $masterSalt;
-    
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Folder>
+     */
+    public function getFolders(): Collection
+    {
+        return $this->folders;
+    }
+
+    public function addFolder(Folder $folder): static
+    {
+        if (!$this->folders->contains($folder)) {
+            $this->folders->add($folder);
+            $folder->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFolder(Folder $folder): static
+    {
+        if ($this->folders->removeElement($folder)) {
+            // set the owning side to null (unless already changed)
+            if ($folder->getUser() === $this) {
+                $folder->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
         return $this;
     }
 }

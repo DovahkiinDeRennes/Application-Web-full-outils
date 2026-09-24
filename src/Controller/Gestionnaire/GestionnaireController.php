@@ -4,6 +4,7 @@ namespace App\Controller\Gestionnaire;
 
 use App\Entity\AllPassword;
 use App\Repository\AllPasswordRepository;
+use App\Repository\FolderRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -15,20 +16,23 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
-final class ListGestionnaireController extends AbstractController
+final class GestionnaireController extends AbstractController
 {
     private UserRepository $ur;
     private AllPasswordRepository $apr;
     private EntityManagerInterface $em;
+    private FolderRepository $fr;
 
-    public function __construct(UserRepository $ur, AllPasswordRepository $apr, EntityManagerInterface $em)
+
+    public function __construct(FolderRepository $fr, UserRepository $ur, AllPasswordRepository $apr, EntityManagerInterface $em)
     {
         $this->ur = $ur;
         $this->apr = $apr;
         $this->em = $em;
+        $this->fr = $fr;
     }
 
-    #[Route('/gestionnaire', name: 'app_gestionnaire')]
+    #[Route('/gestionnaire/mes-mots-de-passes', name: 'app_gestionnaire')]
     public function list(Request $request, ImageFormatService $imageFormatService): Response
     {
         $user = $this->getUser();
@@ -46,18 +50,19 @@ final class ListGestionnaireController extends AbstractController
         if (!$key) {
             $check = false;
             return $this->render('gestionnaire/gestionnaire.html.twig', [
-                'check' => $check
+                'check' => $check,
+                'user' => $user   
             ]);
         }
-     
+
         $query = $request->query->get('query');
-    
-        if($query){
-            $datasUser = $this->apr->searchByQuery($query,$user);
-        }else{
+
+        if ($query) {
+            $datasUser = $this->apr->searchByQuery($query, $user);
+        } else {
             $datasUser = $this->apr->findBy(['user' => $user]);
         }
-    
+
         $decryptedPasswords = [];
         foreach ($datasUser as $entry) {
             $ciphertext = base64_decode($entry->getPassword());
@@ -83,15 +88,31 @@ final class ListGestionnaireController extends AbstractController
                 'url' => $entry->getUrl(),
                 'identifier' => $entry->getIdentifier(),
                 'password' => $plaintext,
+                'folder' => $entry->getFolder()
             ];
+        }
+        $folders = [];
+
+
+        $folders = $this->fr->findBy(['user' => $user]);
+
+        $hasPasswordWithoutFolder = false;
+
+        foreach ($decryptedPasswords as $data) {
+            if ($data['folder'] === null) {
+                $hasPasswordWithoutFolder = true;
+                break;
+            }
         }
 
         return $this->render('gestionnaire/gestionnaire.html.twig', [
             'datas' => $decryptedPasswords,
-            'user' => $user->getEmail(),
+            'folders' => $folders,
+            'user' => $user,
             'check' => $check,
             'masterKeyHash' => $user->getMasterKeyHash(),
+            'hasPasswordWithoutFolder' => $hasPasswordWithoutFolder,
+         
         ]);
     }
-
 }

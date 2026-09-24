@@ -1,11 +1,16 @@
 services:
+
   php:
     build:
       context: .
       dockerfile: Dockerfile
     volumes:
       - .:/var/www/html
+      - symfony_var:/var/www/html/var
     working_dir: /var/www/html
+    environment:
+      APP_ENV: dev
+      APP_DEBUG: 1
     depends_on:
       database:
         condition: service_healthy
@@ -44,3 +49,4 @@ services:
 
 volumes:
   database_data:
+  symfony_var:

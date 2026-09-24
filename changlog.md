@@ -1,3 +1,6 @@
+24/09/2026 -
+feat : Refonte de l'interface, intégration docker, ajout des dossiers
+delete : Suppression des autres outils de l'application 
 26/02/2026 -
 feat : Ajout du login de Symfony, ajout d'un gestionnaire de mot de passe, avec la possibilité d'ajouter, modifier et supprimer un mot de passe, multi-compte, mot de passe Maître pour contrôler tout ça.
 fix  : Restauration des chemins et de l'arborescence du projet

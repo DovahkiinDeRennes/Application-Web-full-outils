@@ -1,141 +1,235 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Gestionnaire
-{% endblock %}
+{% block title %}Gestionnaire{% endblock %}
 
 {% block body %}
+    <section class="p-2">
+      
+        <div class="flex flex-col md:flex-row justify-center gap-4 mb-6 w-full">
 
-	<section class="min-h-screen flex items-center justify-center text-center p-2 flex flex-col px-[10%]">
-		<div class="w-full">
-			<div class="flex {% if check == true %} justify-between {% else %} justify-end {% endif %} w-full gap-4 mb-4 flex-wrap">
-				<div class="flex flex-row">
-					{% if check == true %}
-						<form class="text-left max-[600px]:flex-wrap flex flex-row gap-4" method="GET" action="{{ path('app_gestionnaire') }}" data-turbo="false">
-							<input id="query" type="text" name="query" class="p-1 rounded-lg bg-white text-black focus:outline-none focus:ring-2 focus:ring-blue-500">
-							<button type="submit" class="px-2 bg-blue-600 text-white rounded py-2 hover:bg-blue-700 transition">
-								Rechercher
-							</button>
-						</form>
-					{% endif %}
-				</div>
-				<div class="flex flex-wrap gap-4">
-					{% if check == true %}
-						<a href="{{ path('app_gestionnaire_add') }}" class="px-4 bg-blue-600 text-white rounded py-2 hover:bg-blue-700 transition">
-							AJOUTER
-						</a>
-					{% endif %}
-					<a href="{{ path('app_logout') }}" class="px-4 bg-blue-600 text-white rounded py-2 hover:bg-blue-700 transition">
-						DECONNEXION
-					</a>
-				</div>
-			</div>
-			<div class="flex max-[600px]:flex-col-reverse md:flex-row gap-4 justify-between">
-				<div class="bg-slate-800 p-6 rounded-lg text-white w-full xs:max-w-xl md:max-w-4xl lg:max-w-7xl overflow-x-auto border-2 border-slate-700 w-2/3 self-start">
-					<div class="overflow-x-auto">
-						<table class="w-full text-left border-collapse">
-							<thead>
-								<tr class="max-[600px]:flex max-[600px]:flex-col border-b border-slate-600">
-									<th class="px-4 py-2">URL + Site</th>
-									<th class="px-4 py-2">Identifiant</th>
-									<th class="px-4 py-2">Mot de passe</th>
-									<th class="px-4 py-2 max-[600px]:text-left text-center">Modifier</th>
-									<th class="px-4 py-2 max-[600px]:text-left text-center">Supprimer</th>
-								</tr>
-							</thead>
+            <div
+                class="w-[40px] h-[40px] rounded-full
+                       login-icon flex items-center justify-center
+                       text-2xl font-bold transition
+                       hover:ring-4 hover:ring-white/40"
+            >
+                {{ user.userIdentifier|first|upper }}
+            </div>
+      
+            <div
+                class="flex w-full gap-4  flex-wrap
+                {{ check ? 'justify-between' : 'justify-end' }}"
+            >
+                {% include 'gestionnaire/link/link.html.twig' with {'check': check} %}
+            </div>
+          
+        </div>
+     
+        {% if check %}
+ 
+            <div class="flex flex-col min-[1400px]:grid min-[1400px]:grid-cols-10 gap-4">
+                <div class="max-[600px]:block hidden font-semibold">
+                    <h2>Mes dossiers</h2>
+                </div>
+                {% if folders|length > 0 %}
+                    <div class="min-[1400px]:col-span-3 flex flex-col gap-4 dashboards w-full min-w-0">
 
-							<tbody>
-								{% if check == true %}
-									{% for data in datas %}
-										<tr class="max-[600px]:flex max-[600px]:flex-col border-b border-slate-700 hover:bg-slate-900 transition">
-											<td class="px-4 py-2 italic">
-												<a target="_blank" href="{{ data.url }}">
-													{{ data.site }}
-												</a>
-											</td>
+                        <div class="hidden min-[600px]:block w-full min-w-0">
+                            <table class="w-full table-fixed text-left border-collapse">
+                                <thead>
+                                    <tr class="border-b border-slate-600">
+                                        <th class="w-[25%] px-3 py-2">
+                                            Favoris
+                                        </th>
+                                        <th class="w-[25%] px-3 py-2">
+                                            Nom dossier
+                                        </th>
+                                        <th class="w-[25%] px-3 py-2 text-center">
+                                            Modifier
+                                        </th>
+                                        <th class="w-[25%] px-3 py-2 text-center">
+                                            Supprimer
+                                        </th>
+                                    </tr>
+                                </thead>
 
-											<td class="px-4 py-2">
-												{% if data.identifier|length > 15 %}
-													<p>{{ data.identifier|slice(0, 15) }}...</p>
-												{% else %}
-													<p>{{ data.identifier }}</p>
-												{% endif %}
-											</td>
+                                <tbody>
+                                    {% for folder in folders %}
+                                        <tr class="border-b last:border-b-0">
 
-											<td
-												class="copiable px-4 py-2 password-hidden hover:text-red-600"
-												data-value="{{ data.password }}"
-											>
-												{% if data.password|length > 15 %}
-													<p class="transition">
-														{{ data.password|slice(0, 15) }}...
-													</p>
-												{% else %}
-													<p class="transition">
-														{{ data.password }}
-													</p>
-												{% endif %}
-											</td>
+                                            <td class="px-3 py-3">
+                                                <button
+                                                    type="button"
+                                                    class="hover:text-yellow-400 transition"
+                                                    aria-label="Ajouter aux favoris"
+                                                >
+                                                    <i class="fa-regular fa-star"></i>
+                                                </button>
+                                            </td>
 
-											<td class="px-4 py-2 max-[600px]:text-left text-center cursor-pointer hover:text-blue-600">
-												<a href="{{ path('app_gestionnaire_update', {uuid: data.uuid}) }}">
-													<i class="fa-solid fa-file-pen"></i>
-												</a>
-											</td>
+                                            <td class="px-3 py-3 min-w-0">
+                                                <a
+                                                    href="{{ path('app_gestionnaire_folder', {id: folder.id}) }}"
+                                                    class="block truncate hover:underline"
+                                                    title="{{ folder.name }}"
+                                                >
+                                                    {{ folder.name }}
+                                                </a>
+                                            </td>
 
-											<td class="px-4 py-2 max-[600px]:text-left text-center cursor-pointer hover:text-red-600 transition">
-												<form
-													method="post"
-													action="{{ path('app_gestionnaire_delete', {uuid: data.uuid}) }}"
-													onsubmit="return confirm('Confirmer la suppression ?');"
-												>
+                                            <td class="px-3 py-3 text-center">
+                                                <a
+                                                    href="{{ path('app_gestionnaire_update_folder', {id: folder.id}) }}"
+                                                    class="inline-flex items-center justify-center p-2 hover:text-blue-600 transition"
+                                                    aria-label="Modifier le dossier"
+                                                >
+                                                    <i class="fa-solid fa-file-pen"></i>
+                                                </a>
+                                            </td>
 
-													<input
-														type="hidden"
-														name="_token"
-														value="{{ csrf_token('delete' ~ data.uuid) }}"
-													>
+                                            <td class="px-3 py-3 text-center">
+                                                <form
+                                                    method="post"
+                                                    action=""
+                                                    onsubmit="return confirm('Confirmer la suppression ?');"
+                                                >
+                                                    <button
+                                                        type="submit"
+                                                        class="inline-flex items-center justify-center p-2 hover:text-red-600 transition"
+                                                        aria-label="Supprimer le dossier"
+                                                    >
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
 
-													<button class="btn btn-link p-0">
-														<i class="fa fa-trash"></i>
-													</button>
-												</form>
-											</td>
-										</tr>
-									{% endfor %}
-								{% endif %}
-							</tbody>
-						</table>
-					</div>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+               
+                        <div class="min-[600px]:hidden flex flex-col gap-3 w-full min-w-0">
 
-					{% if datas is defined and datas is empty %}
-						<p class="mt-4">Aucun Mot de passe enregistrer</p>
-					{% endif %}
-					{% if check == false %}
-						<p class="mt-4">Aucun Mot de passe enregistrer</p>
-					{% endif %}
-				</div>
+                            {% for folder in folders %}
 
-				<div class="flex flex-col gap-4 w-full md:w-1/3">
-					{% if check == false %}
-						{{ render(controller('App\\Controller\\MasterKey\\MasterKeyController::loginMasterKey')) }}
-					{% else %}
-						{% if masterKeyHash is empty %}
-							{{ render(controller('App\\Controller\\MasterKey\\MasterKeyController::addMasterKey')) }}
-						{% endif %}
-					{% endif %}
-					<div class="bg-slate-800 rounded-md p-4 border-2 border-slate-700 gap-4 flex flex-col">
-						<h2 class="text-white text-xl">Explication</h2>
-						<p class="text-white text-left overflow-y-auto h-64">
-							Gestionnaire de mots de passe 100% local. Commencez par créer un mot de passe Maître, puis connectez-vous avec celui-ci.  
-							Lors de l'ajout d'un mot de passe, indiquez l'URL exacte du formulaire de connexion. Si le formulaire s'ouvre dans une popup, renseignez l'URL de la page où vous avez cliqué.  
-							Si cela ne fonctionne pas, certaines sécurités du site peuvent bloquer l'intégration. L'extension liée à ce gestionnaire complète automatiquement vos données dans le formulaire de connexion.  
-							Vos mots de passe sont évidemment chiffrés et stockés localement, garantissant une sécurité totale.
-						</p>
-					</div>
-				</div>
+                                <div class="w-full min-w-0 border-b border-t border-mobile-dashboards p-3">
 
-			</div>
-		</div>
-	</section>
+                                    <div class="flex items-center gap-3 min-w-0">
 
+                                        <button
+                                            type="button"
+                                            class="shrink-0 p-2 hover:text-yellow-400 transition"
+                                            aria-label="Ajouter aux favoris"
+                                        >
+                                            <i class="fa-regular fa-star"></i>
+                                        </button>
+
+                                        <a
+                                            href="{{ path('app_gestionnaire_folder', {id: folder.id}) }}"
+                                            class="flex-1 min-w-0 truncate font-medium hover:underline"
+                                            title="{{ folder.name }}"
+                                        >
+                                            {{ folder.name }}
+                                        </a>
+
+                                        <div class="flex items-center gap-1 shrink-0">
+
+                                            <a
+                                                href="{{ path('app_gestionnaire_update_folder', {id: folder.id}) }}"
+                                                class="p-2 hover:text-blue-600 transition"
+                                                aria-label="Modifier le dossier"
+                                            >
+                                                <i class="fa-solid fa-file-pen"></i>
+                                            </a>
+
+                                            <form
+                                                method="post"
+                                                action=""
+                                                onsubmit="return confirm('Confirmer la suppression ?');"
+                                            >
+                                                <button
+                                                    type="submit"
+                                                    class="p-2 hover:text-red-600 transition"
+                                                    aria-label="Supprimer le dossier"
+                                                >
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </button>
+                                            </form>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+
+                    </div>
+                {% endif %}
+                <div class="max-[600px]:block hidden font-semibold">
+                    <h2>Mes mots de passes</h2>
+                </div>
+                <div class="  {% if folders|length > 0 %} min-[1400px]:col-span-7 {% else %} min-[1400px]:col-span-10 {% endif %}">  
+                    {% include 'gestionnaire/list/list.html.twig' with {'datas': datas, 'folder': null} %}
+                </div>
+          
+            </div>
+        {% else %}
+
+            <div class="flex flex-col md:flex-row gap-4 w-full mt-8">
+
+                {% if not check %}
+
+                    {{ render(
+                        controller(
+                            'App\\Controller\\MasterKey\\MasterKeyController::loginMasterKey'
+                        )
+                    ) }}
+
+                {% elseif masterKeyHash is empty %}
+
+                    {{ render(
+                        controller(
+                            'App\\Controller\\MasterKey\\MasterKeyController::addMasterKey'
+                        )
+                    ) }}
+
+                {% endif %}
+                <div class="dashboards rounded p-4 border-2 gap-4 flex flex-col w-full md:w-1/3">
+                    <h2 class="text-white text-xl">Explication</h2>
+                    <p class="text-white text-left overflow-y-auto h-64">
+                        Gestionnaire de mots de passe 100% local. Commencez par créer un mot de passe Maître, puis connectez-vous avec celui-ci.
+                        Lors de l'ajout d'un mot de passe, indiquez l'URL exacte du formulaire de connexion. Si le formulaire s'ouvre dans une popup, renseignez l'URL de la page où vous avez cliqué.
+                        Si cela ne fonctionne pas, certaines sécurités du site peuvent bloquer l'intégration. L'extension liée à ce gestionnaire complète automatiquement vos données dans le formulaire de connexion.
+                        Vos mots de passe sont évidemment chiffrés et stockés localement, garantissant une sécurité totale.
+                    </p>
+                </div>
+                <div
+                    class="dashboards rounded-xl p-6 flex flex-col items-center
+                justify-center text-center w-full md:w-1/3"
+                >
+                    <div
+                        class="w-16 h-16 mb-3 rounded-full
+                       login-icon flex items-center justify-center
+                       text-2xl font-bold transition
+                       hover:ring-4 hover:ring-white/40"
+                    >
+                        {{ user.userIdentifier|first|upper }}
+                    </div>
+
+                    <div class="font-semibold text-lg">
+                        {{ user.name|upper }}
+                    </div>
+                    <div class="text-sm opacity-80">
+                        {{ user.userIdentifier }}
+                    </div>
+                </div>
+               
+
+            </div>
+        {% endif %}
+    </section>
 {% endblock %}

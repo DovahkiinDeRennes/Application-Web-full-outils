@@ -3,29 +3,35 @@
 {% block title %}Modification mot de passe{% endblock %}
 
 {% block body %}
-    {% include 'component/navBar.html.twig'  %}
 
-    <section class="min-h-screen flex items-center justify-center text-center p-2 flex px-[30%] flex-col">
-        <div class="bg-slate-800 p-6 rounded-lg text-white w-full overflow-x-auto">
+    <section class="min-h-screen flex items-center justify-center text-center p-2 flex px-[5%] md:px-[30%] flex-col">
+        <div class="flex flex-wrap gap-4 justify-end w-full md:pr-6">
 
-            <form 
-                class="text-left flex flex-col gap-4" 
-                method="POST" 
-                action="{{ path('app_gestionnaire_update', { uuid: passwordEntry.uuid }) }}"
+            <a href="javascript:history.back()" class="button-action px-4 rounded py-2 transition">
+                RETOUR
+            </a>
+
+        </div>
+        <div class="md:p-6 mt-6 md:mt-0 rounded text-white w-full overflow-x-auto">
+
+            <form
+                class="dashboards p-4 text-left flex flex-col gap-4"
+                method="POST"
+                action="{{ path('app_gestionnaire_update', {uuid: passwordEntry.uuid, id: id}) }}"
             >
                 <input type="hidden" name="_token" value="{{ csrf_token('update' ~ passwordEntry.uuid) }}">
 
-                <div class="flex flex-row gap-4">
+                <div class="flex flex-col md:flex-row gap-4">
                     <div class="flex flex-col w-full">
                         <label for="site" class="mb-1">
                             Nom du site
                         </label>
-                        <input 
-                            id="site" 
-                            type="text" 
-                            name="site" 
-                            value="{{ passwordEntry.site }}" 
-                            class="p-1 rounded-lg bg-white text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        <input
+                            id="site"
+                            type="text"
+                            name="site"
+                            value="{{ passwordEntry.site }}"
+                            class="p-1 rounded bg-white text-black "
                             required
                         >
                     </div>
@@ -34,12 +40,12 @@
                         <label for="url" class="mb-1">
                             Url du site
                         </label>
-                        <input 
-                            id="url" 
-                            type="text" 
-                            name="url" 
-                            value="{{ passwordEntry.url }}" 
-                            class="p-1 rounded-lg bg-white text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        <input
+                            id="url"
+                            type="text"
+                            name="url"
+                            value="{{ passwordEntry.url }}"
+                            class="p-1 rounded bg-white text-black "
                             required
                         >
                     </div>
@@ -49,12 +55,12 @@
                     <label for="identifier" class="mb-1">
                         Identifiant du site
                     </label>
-                    <input 
-                        id="identifier" 
-                        type="text" 
-                        name="identifier" 
-                        value="{{ passwordEntry.identifier }}" 
-                        class="p-1 rounded-lg bg-white text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    <input
+                        id="identifier"
+                        type="text"
+                        name="identifier"
+                        value="{{ passwordEntry.identifier }}"
+                        class="p-1 rounded bg-white text-black "
                         required
                     >
                 </div>
@@ -63,18 +69,44 @@
                     <label for="password" class="mb-1">
                         Nouveau mot de passe
                     </label>
-                    <input 
-                        id="password" 
-                        type="password" 
-                        name="password" 
-                        class="p-1 rounded-lg bg-white text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    <input
+                        id="password"
+                        type="password"
+                        name="password"
+                        class="p-1 rounded bg-white text-black "
                         placeholder="Laisser vide pour ne pas modifier"
                     >
                 </div>
 
-                <button 
-                    type="submit" 
-                    class="px-4 bg-blue-600 text-white rounded py-2 hover:bg-blue-700 transition"
+                <div class="flex flex-col">
+                    <label for="folder" class="mb-1">
+                        Dossier
+                    </label>
+
+                    <select
+                        id="folder"
+                        name="folder"
+                        class="p-1 rounded bg-white text-black"
+                    >
+                        <option value="">Aucun dossier</option>
+
+                        {% for folder in folders %}
+                            <option
+                                value="{{ folder.id }}"
+                                {% if passwordEntry.folder and passwordEntry.folder.id == folder.id %}selected{% endif %}
+                            >
+                                {{ folder.name }}
+                            </option>
+                        {% else %}
+                            <option value="">Aucun dossier disponible</option>
+                        {% endfor %}
+                    </select>
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="button-action px-4 text-white rounded py-2 transition"
                 >
                     Mettre à jour
                 </button>

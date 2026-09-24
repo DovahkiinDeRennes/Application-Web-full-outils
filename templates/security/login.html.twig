@@ -3,61 +3,178 @@
 {% block title %}Connexion
 {% endblock %}
 
+
+
 {% block body %}
 
-    
-	<section class="min-h-screen flex items-center justify-center p-4">
-    <div class="w-full max-w-md bg-slate-800 p-8 rounded-2xl shadow-xl text-white">
+    <section class="min-h-screen flex items-center justify-center"> 
+        <div class="w-full max-w-md  p-4 md:p-8 rounded-2xl shadow-xl text-white">
+            
 
-        <h1 class="text-2xl md:text-3xl font-bold text-center mb-8">
-            CONNEXION
-        </h1>
+            {% if error %}
+                <div class="bg-red-500/20 border border-red-500 text-red-400 p-3 rounded-xl mb-6 text-sm">
+                    {{ error.messageKey|trans(error.messageData, 'security') }}
+                </div>
+            {% endif %}
 
-        {% if error %}
-            <div class="bg-red-500/20 border border-red-500 text-red-400 p-3 rounded-lg mb-6 text-sm">
-                {{ error.messageKey|trans(error.messageData, 'security') }}
+            {# Sélection de l'utilisateur #}
+            <div class="mb-8">
+
+                <div class="swiper user-swiper">
+                    <div class="swiper-wrapper">
+
+                        {% for user in users %}
+
+                            <div class="swiper-slide" data-username="{{ user.userIdentifier }}">
+                                <div
+                                    class="dashboards h-[300px] rounded-xl p-6 flex flex-col items-center
+                   justify-center text-center cursor-pointer transition
+                   hover:scale-105 hover:shadow-xl"
+                                >
+                                    <div
+                                        class="w-16 h-16 mb-3 rounded-full
+                       login-icon flex items-center justify-center
+                       text-2xl font-bold transition
+                       hover:ring-4 hover:ring-white/40"
+                                    >
+                                        {{ user.userIdentifier|first|upper }}
+                                    </div>
+
+                                    <div class="font-semibold text-lg">
+                                        {{ user.name|upper }}
+                                    </div>
+                                    <div class="text-sm opacity-80">
+                                        {{ user.userIdentifier }}
+                                    </div>
+                                </div>
+                            </div>
+
+                        {% else %}
+
+                            <div class="swiper-slide">
+                                <div
+                                    class="bg-slate-800/60 rounded-xl h-[300px] p-6 flex items-center
+                   justify-center text-center text-sm opacity-70"
+                                >
+                                    Aucun utilisateur
+                                </div>
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                    {# Pagination avec les petits points #}
+                    <div class="swiper-pagination mt-4"></div>
+                </div>
+
             </div>
-        {% endif %}
 
-        <form action="{{ path('app_login') }}" method="post" class="flex flex-col gap-6">
+            <form
+                action="{{ path('app_login') }}"
+                method="post"
+                class="flex flex-col gap-6"
+            >
 
-            <div class="flex flex-col gap-2">
-                <label for="username" class="text-md  text-slate-300">
-                    Nom d'utilisateur
-                </label>
+                {# Username caché, rempli automatiquement par Swiper #}
                 <input
-                    class="p-3 rounded-lg bg-white text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    type="text"
+                    type="hidden"
                     id="username"
                     name="_username"
                     value="{{ last_username }}"
-                    required
-                    autofocus
                 >
-            </div>
 
-            <div class="flex flex-col gap-2">
-                <label for="password" class="text-md  text-slate-300">
-                    Mot de passe
-                </label>
-                <input
-                    class="p-3 rounded-lg bg-white text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    type="password"
-                    id="password"
-                    name="_password"
-                    required
+                <div class="flex flex-col gap-2">
+
+                    <label
+                        for="password"
+                        class="text-md text-slate-300"
+                    >
+                        Mot de passe
+                    </label>
+
+                    <input
+                        class="p-3 rounded bg-white text-black"
+                        type="password"
+                        id="password"
+                        name="_password"
+                        required
+                        autocomplete="current-password"
+                    >
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="mt-4 button-action p-3 rounded font-semibold"
                 >
-            </div>
+                    Se connecter
+                </button>
 
-            <button
-                type="submit"
-                class="mt-4 bg-blue-600 hover:bg-blue-700 transition duration-200 p-3 rounded-lg font-semibold"
-            >
-                Se connecter
-            </button>
+            </form>
 
-        </form>
-    </div>
-</section>
+        </div>
+
+    </section> 
+    <script>document.addEventListener('DOMContentLoaded', function () {
+
+    const usernameInput = document.getElementById('username');
+
+    const swiper = new Swiper('.user-swiper', {
+        slidesPerView: 1,
+        spaceBetween: 20,
+
+        loop: {{ users|length > 1 ? 'true' : 'false' }},
+
+        grabCursor: true,
+
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+
+        on: {
+            init: function () {
+                updateUsername(this);
+            },
+
+            slideChange: function () {
+                updateUsername(this);
+            }
+        }
+    });
+
+    function updateUsername(swiper) {
+
+        const slide = swiper.slides[swiper.activeIndex];
+
+        if (!slide) {
+            return;
+        }
+
+        const username = slide.dataset.username;
+
+        if (username) {
+            usernameInput.value = username;
+        }
+    }
+
+    // Permet également de cliquer directement sur une carte
+    document.querySelectorAll('.swiper-slide').forEach(slide => {
+
+        slide.addEventListener('click', function () {
+
+            const username = this.dataset.username;
+
+            if (username) {
+                usernameInput.value = username;
+            }
+
+        });
+
+    });
+
+});
+</script>
 
 {% endblock %}

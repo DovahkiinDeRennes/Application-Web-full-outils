@@ -30,6 +30,11 @@ class AllPassword
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'allPasswords')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
+    
+    #[ORM\ManyToOne(targetEntity: Folder::class, inversedBy: 'allPasswords')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Folder $folder = null;
+
 
     #[ORM\Column(length: 255)]
     private string $nonce; // base64
@@ -153,6 +158,17 @@ class AllPassword
     {
         $this->uuid = $uuid;
     
+        return $this;
+    }
+
+       public function getFolder(): ?Folder
+    {
+        return $this->folder;
+    }
+
+    public function setFolder(?Folder $folder): self
+    {
+        $this->folder = $folder;
         return $this;
     }
 }

@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil
+{% endblock %}
+
+{% block body %}
+	<style></style>
+	
+	<section class="min-h-screen flex items-center justify-center text-center flex flex-col px-[5%] md:px-[30%]">
+		<div class="flex flex-wrap gap-4 justify-end w-full md:pr-6">
+
+
+        <a href="{{ path('app_gestionnaire') }}" class="button-action px-4 rounded py-2 transition">
+            RETOUR
+        </a>
+
+</div>
+		<div class="md:p-6 mt-6 md:mt-0 rounded text-white w-full overflow-x-auto">
+			<form class="dashboards p-4 text-left flex flex-col gap-4" method="POST" action="{{ path('app_gestionnaire_add_folder') }}">
+				<div class="flex flex-col gap-4">
+					<div class="flex flex-col">
+						<label for="name" class="mb-1">
+							Nom du dossier
+						</label>
+						<input id="name" type="text" name="name" class="p-1 rounded bg-white text-black" required>
+					</div>
+					<div class="flex flex-col">
+						<label for="ref" class="mb-1">
+							Ref du dossier
+						</label>
+						<input id="ref" type="text" name="ref" class="p-1 rounded bg-white text-black" required>
+					</div>
+				</div>
+				
+				<button type="submit" class="button-action px-2 text-white rounded py-2 transition">
+					Ajouter
+				</button>
+			</form>
+		</div>
+	</section>
+{% endblock %}

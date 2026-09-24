@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification mot de passe{% endblock %}
+
+{% block body %}
+    {% include 'component/navBar.html.twig'  %}
+
+    <section class="min-h-screen flex items-center justify-center text-center p-2 flex px-[5%] md:px-[15%] flex-col">
+        <div class="bg-slate-800 p-6 rounded-lg text-white w-full overflow-x-auto">
+
+            <form 
+                class="text-left flex flex-col gap-4" 
+                method="POST" 
+                action="{{ path('app_gestionnaire_update_folder', { id: folderEntry.id }) }}"
+            >
+              
+
+                <div class="flex flex-col md:flex-row gap-4">
+                    <div class="flex flex-col w-full">
+                        <label for="name" class="mb-1">
+                            Nom du Dossier
+                        </label>
+                        <input 
+                            id="name" 
+                            type="text" 
+                            name="name" 
+                            value="{{ folderEntry.name }}" 
+                            class="p-1 rounded-lg bg-white text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required
+                        >
+                    </div>
+
+                    <div class="flex flex-col w-full">
+                        <label for="ref" class="mb-1">
+                            Ref du dossier
+                        </label>
+                        <input 
+                            id="ref" 
+                            type="text" 
+                            name="ref" 
+                            value="{{ folderEntry.ref }}" 
+                            class="p-1 rounded-lg bg-white text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <button 
+                    type="submit" 
+                    class="px-4 bg-blue-600 text-white rounded py-2 hover:bg-blue-700 transition"
+                >
+                    Mettre à jour
+                </button>
+
+            </form>
+        </div>
+    </section>
+{% endblock %}
