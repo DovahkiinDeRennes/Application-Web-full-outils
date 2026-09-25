@@ -13,19 +13,28 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" referrerpolicy="no-referrer"/>
 		{% block stylesheets %}
 			<link rel="stylesheet" href="/assets/styles/app.css"/>
+			{% set theme = app.request.cookies.get('theme', 'default') %}
+			
+			<link rel="stylesheet" href="{{ asset('assets/styles/themes/theme_' ~ theme ~ '.css') }}">
 			<link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
->
+				rel="stylesheet"
+				href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+			>
 		{% endblock %}
 	</head>
 	<body> {% block body %}{% endblock %}
-    	{% block javascripts %}
+		{% block javascripts %}
 			<script src="/assets/js/hidePassword.js"></script>
-				<script src="/assets/js/accordion.js"></script>
-				<script src="/assets/js/swiper.js"></script>
-				 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+			<script src="/assets/js/accordion.js"></script>
+			<script src="/assets/js/swiper.js"></script>
+			<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+			<script>
+				document.documentElement.setAttribute(
+					"data-theme",
+					localStorage.getItem("theme") || "default",
+				);
+			</script>
 		{% endblock %}
-		</body>
+	</body>
 	
-	</html>
+</html>

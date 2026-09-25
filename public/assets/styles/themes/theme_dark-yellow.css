@@ -1,0 +1,150 @@
+body {
+    background: #111315;
+    color: #f4f4f5;
+    font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+}
+
+.button-action {
+    background: linear-gradient(135deg, #facc15, #eab308);
+    border: none;
+    border-radius: 10px;
+    padding: 10px 18px;
+    color: #111315 !important;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(250, 204, 21, 0.20);
+    transition: all 0.2s ease;
+}
+
+.button-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(250, 204, 21, 0.32);
+}
+
+input {
+    background-color: #181a1d;
+    border: 1px solid #3f4247;
+    color: #f4f4f5;
+    outline: none;
+}
+
+input:focus {
+    border-color: #facc15;
+    box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.12);
+}
+
+.content-list {
+    background: rgba(24, 26, 29, 0.95);
+    border: 1px solid rgba(250, 204, 21, 0.18);
+    border-radius: 5px;
+
+    color: #e4e4e7;
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.035);
+    padding: 10px;
+}
+
+.content-list .dashboards {
+    background: rgba(24, 26, 29, 0.95);
+    border: 1px solid rgba(250, 204, 21, 0);
+    border-radius: 14px;
+    overflow: hidden;
+    color: #e4e4e7;
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.035);
+}
+
+.content-list .dashboards tr {
+    background-color: rgba(35, 37, 41, 0.95);
+    border-bottom: 1px solid rgba(250, 204, 21, 0.10);
+    transition: all 0.2s ease;
+}
+
+.dashboards {
+    background: rgba(24, 26, 29, 0.95);
+    border: 1px solid rgba(250, 204, 21, 0.18);
+    border-radius: 5px;
+    overflow: hidden;
+    color: #e4e4e7;
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.035);
+}
+
+.dashboards tr {
+    background-color: transparent;
+    border-bottom: 1px solid rgba(250, 204, 21, 0.10);
+    transition: all 0.2s ease;
+}
+
+.dashboards tr:last-child {
+    border-bottom: none;
+}
+
+.dashboards tr:hover {
+    background: linear-gradient(
+        90deg,
+        rgba(250, 204, 21, 0.12),
+        rgba(255, 255, 255, 0.025)
+    );
+}
+
+.dashboards td,
+.dashboards th {
+    padding: 14px 16px;
+}
+
+.dashboards th {
+    background: rgba(250, 204, 21, 0.07);
+    color: #fde047;
+    font-weight: 700;
+}
+
+.login-icon {
+    background-color: #facc15;
+}
+
+.swiper-pagination-bullet-active {
+    background-color: #facc15 !important;
+}
+
+.border-mobile-dashboards {
+    background: rgba(250, 204, 21, 0.06);
+    border-color: rgb(82 82 91);
+}
+
+.text-mobile-dashboards {
+    color: #fde047;
+}
+
+.button-update {
+    color: rgb(255, 255, 255);
+}
+
+.button-delete {
+    color: rgb(255, 255, 255);
+}
+
+.button-update:hover {
+    color: rgb(250, 204, 21);
+}
+
+.button-delete:hover {
+    color: rgb(248, 113, 113);
+}
+
+.button-copiable {
+    color: rgb(255, 255, 255);
+}
+
+.button-copiable:hover {
+    color: rgb(248, 113, 113);
+}

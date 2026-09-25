@@ -74,7 +74,7 @@
                         </td>
 
                         <td
-                            class="copiable px-3 py-3 password-hidden min-w-0 cursor-pointer hover:text-red-600 transition"
+                            class="copiable px-3 py-3 password-hidden min-w-0 cursor-pointer button-copiable transition"
                             data-value="{{ data.password }}"
                             title="Cliquer pour copier"
                         >
@@ -94,7 +94,7 @@
                                     uuid: data.uuid,
                                     id: id
                                 }) }}"
-                                class="inline-flex items-center justify-center p-2 hover:text-blue-600 transition"
+                                class="inline-flex items-center justify-center p-2 button-update transition"
                                 aria-label="Modifier"
                             >
                                 <i class="fa-solid fa-file-pen"></i>
@@ -121,7 +121,7 @@
 
                                 <button
                                     type="submit"
-                                    class="inline-flex items-center justify-center p-2 hover:text-red-600 transition"
+                                    class="inline-flex items-center justify-center p-2 button-delete transition"
                                     aria-label="Supprimer"
                                 >
                                     <i class="fa-solid fa-trash"></i>
@@ -176,7 +176,7 @@
                                 uuid: data.uuid,
                                 id: id
                             }) }}"
-                            class="p-2 hover:text-blue-600 transition"
+                            class="p-2 button-update transition"
                             aria-label="Modifier"
                         >
                             <i class="fa-solid fa-file-pen"></i>
@@ -199,7 +199,7 @@
 
                             <button
                                 type="submit"
-                                class="p-2 hover:text-red-600 transition"
+                                class="p-2 button-delete transition"
                                 aria-label="Supprimer"
                             >
                                 <i class="fa-solid fa-trash"></i>
@@ -235,7 +235,7 @@
                         </div>
 
                         <div
-                            class="copiable password-hidden truncate cursor-pointer hover:text-red-600 transition"
+                            class="copiable password-hidden truncate cursor-pointer button-delete transition"
                             data-value="{{ data.password }}"
                             title="Cliquer pour copier"
                         >

@@ -42,9 +42,42 @@
     <a href="{{ path('app_logout') }}" class="button-action px-4 rounded py-2 transition">
         DECONNEXION
     </a>
-    <span disabled class="button-action px-4 rounded py-2 transition opacity-50">
-         <i class="fa-solid fa-gear"></i>
+
+    {% set theme = app.request.cookies.get('theme', 'default') %}
+
+    <span class="button-action px-4 rounded py-2 transition cursor-pointer" onclick="document.getElementById('theme-popup').classList.remove('hidden')">
+        <i class="fa-solid fa-gear"></i>
     </span>
+
+
+    <div id="theme-popup" class="hidden fixed inset-0 flex items-center justify-center z-50">
+        <div class="absolute inset-0 bg-black/60" onclick="document.getElementById('theme-popup').classList.add('hidden')"></div>
+
+        <div class="content-list relative z-10 w-80 p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold">Choisir un thème</h3>
+                <button onclick="document.getElementById('theme-popup').classList.add('hidden')" class="opacity-70 hover:opacity-100">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form action="{{ path('switch_theme') }}" method="get">
+                <select name="theme" class="w-full p-2 rounded mb-4 text-black">
+                    <option value="dark-cyan" {{ theme == 'dark-cyan' ? 'selected' }}>🔵 Dark cyan</option>
+                    <option value="dark-orange" {{ theme == 'dark-orange' ? 'selected' }}>🟠 Dark orange</option>
+                    <option value="dark-yellow" {{ theme == 'dark-yellow' ? 'selected' }}>🟡 Dark yellow</option>
+                    <option value="day" {{ theme == 'day' ? 'selected' }}>☀️ Day</option>
+                    <option value="green" {{ theme == 'green' ? 'selected' }}>🟢 Green</option>
+                    <option value="night" {{ theme == 'night' ? 'selected' }}>🌙 Night</option>
+                    <option value="purple" {{ theme == 'purple' ? 'selected' }}>🟣 Purple</option>
+                    <option value="default" {{ theme == 'default' ? 'selected' }}>⚙️ Par défaut</option>
+                </select>
+                <button type="submit" class="button-action w-full py-2 rounded">
+                    Appliquer
+                </button>
+            </form>
+        </div>
+    </div>
    
 
 </div>

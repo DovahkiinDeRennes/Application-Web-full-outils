@@ -1,0 +1,150 @@
+body {
+    background: #07111f;
+    color: #eff6ff;
+    font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+}
+
+.button-action {
+    background: linear-gradient(135deg, #0ea5e9, #06b6d4);
+    border: none;
+    border-radius: 10px;
+    padding: 10px 18px;
+    color: #ffffff !important;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(14, 165, 233, 0.25);
+    transition: all 0.2s ease;
+}
+
+.button-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(14, 165, 233, 0.35);
+}
+
+input {
+    background-color: #07111f;
+    border: 1px solid #164e63;
+    color: #eff6ff;
+    outline: none;
+}
+
+input:focus {
+    border-color: #22d3ee;
+    box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.15);
+}
+
+.content-list {
+    background: rgba(10, 25, 42, 0.92);
+    border: 1px solid rgba(34, 211, 238, 0.22);
+    border-radius: 5px;
+
+    color: #e0f2fe;
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    padding: 10px;
+}
+
+.content-list .dashboards {
+    background: rgba(10, 25, 42, 0.92);
+    border: 1px solid rgba(34, 211, 238, 0);
+    border-radius: 14px;
+    overflow: hidden;
+    color: #e0f2fe;
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.content-list .dashboards tr {
+    background-color: rgba(17, 44, 67, 0.9);
+    border-bottom: 1px solid rgba(34, 211, 238, 0.12);
+    transition: all 0.2s ease;
+}
+
+.dashboards {
+    background: rgba(10, 25, 42, 0.92);
+    border: 1px solid rgba(34, 211, 238, 0.22);
+    border-radius: 5px;
+    overflow: hidden;
+    color: #e0f2fe;
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.dashboards tr {
+    background-color: transparent;
+    border-bottom: 1px solid rgba(34, 211, 238, 0.12);
+    transition: all 0.2s ease;
+}
+
+.dashboards tr:last-child {
+    border-bottom: none;
+}
+
+.dashboards tr:hover {
+    background: linear-gradient(
+        90deg,
+        rgba(14, 165, 233, 0.15),
+        rgba(6, 182, 212, 0.08)
+    );
+}
+
+.dashboards td,
+.dashboards th {
+    padding: 14px 16px;
+}
+
+.dashboards th {
+    background: rgba(14, 165, 233, 0.08);
+    color: #67e8f9;
+    font-weight: 600;
+}
+
+.login-icon {
+    background-color: #22d3ee;
+}
+
+.swiper-pagination-bullet-active {
+    background-color: #22d3ee !important;
+}
+
+.border-mobile-dashboards {
+    background: rgba(14, 165, 233, 0.08);
+    border-color: rgb(22 78 99);
+}
+
+.text-mobile-dashboards {
+    color: #67e8f9;
+}
+
+.button-update {
+    color: rgb(255, 255, 255);
+}
+
+.button-delete {
+    color: rgb(255, 255, 255);
+}
+
+.button-update:hover {
+    color: rgb(56, 189, 248);
+}
+
+.button-delete:hover {
+    color: rgb(248, 113, 113);
+}
+
+.button-copiable {
+    color: rgb(255, 255, 255);
+}
+
+.button-copiable:hover {
+    color: rgb(248, 113, 113);
+}

@@ -1,0 +1,118 @@
+
+
+
+    body {
+        background: #0f0b1a;
+        color: #f5f3ff;
+    }
+
+    .button-action {
+        background: linear-gradient(135deg, #8b5cf6, #6366f1);
+        box-shadow: 0 4px 15px rgba(139, 92, 246, 0.25);
+    }
+
+    .button-action:hover {
+        box-shadow: 0 8px 25px rgba(139, 92, 246, 0.35);
+    }
+
+    input {
+        background-color: #0f0b1a;
+        border: 1px solid #31215f;
+        color: #f5f3ff;
+    }
+
+    input:focus {
+        border-color: #a78bfa;
+        box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.15);
+    }
+
+    .content-list {
+        background: rgba(25, 18, 42, 0.9);
+        border: 1px solid rgba(167, 139, 250, 0.25);
+        color: #f5f3ff;
+        box-shadow:
+            0 10px 30px rgba(0, 0, 0, 0.25),
+            inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    }
+
+    .content-list .dashboards {
+        background: rgba(25, 18, 42, 0.9);
+        border: 1px solid rgba(167, 139, 250, 0);
+        color: #f5f3ff;
+        box-shadow:
+            0 10px 30px rgba(0, 0, 0, 0.25),
+            inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    }
+
+    .content-list .dashboards tr {
+        background-color: rgba(45, 33, 75, 0.9);
+        border-bottom: 1px solid rgba(167, 139, 250, 0.12);
+    }
+
+    .dashboards {
+        background: rgba(25, 18, 42, 0.9);
+        border: 1px solid rgba(167, 139, 250, 0.25);
+        color: #f5f3ff;
+        box-shadow:
+            0 10px 30px rgba(0, 0, 0, 0.25),
+            inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    }
+
+    .dashboards tr {
+        background-color: transparent;
+        border-bottom: 1px solid rgba(167, 139, 250, 0.12);
+    }
+
+    .dashboards tr:hover {
+        background: linear-gradient(
+            90deg,
+            rgba(139, 92, 246, 0.15),
+            rgba(99, 102, 241, 0.08)
+        );
+    }
+
+    .dashboards th {
+        background: rgba(139, 92, 246, 0.08);
+        color: #c4b5fd;
+    }
+
+    .login-icon {
+        background-color: #a78bfa;
+    }
+
+    .swiper-pagination-bullet-active {
+        background-color: #a78bfa !important;
+    }
+
+    .border-mobile-dashboards {
+        background: rgba(139, 92, 246, 0.08);
+        border-color: rgb(67 45 112);
+    }
+
+    .text-mobile-dashboards {
+        color: #c4b5fd;
+    }
+
+    /* .button-update {
+        color: #ffffff;
+    }
+
+    .button-delete {
+        color: #ffffff;
+    } */
+
+    .button-update:hover {
+        color: rgb(129, 140, 248);
+    }
+
+    .button-delete:hover {
+        color: rgb(248, 113, 113);
+    }
+
+    .button-copiable {
+        color: #ffffff;
+    }
+
+    .button-copiable:hover {
+        color: rgb(248, 113, 113);
+    }

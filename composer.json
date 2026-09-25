@@ -4,7 +4,7 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-              "php": ">=8.4",
+        "php": ">=8.4",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "doctrine/dbal": "^4.4",
@@ -14,6 +14,7 @@
         "intervention/image": "^3.11",
         "nelmio/cors-bundle": "^2.6",
         "setasign/fpdf": "^1.8",
+        "symfony/asset": "8.0.*",
         "symfony/console": "8.0.*",
         "symfony/dotenv": "8.0.*",
         "symfony/flex": "^2",
